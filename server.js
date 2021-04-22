@@ -4,6 +4,7 @@ const express = require('express');
 
 // these two will go to index file as default
 const htmlRoutes = require('./routes/htmlRoutes');
+const apiRoutes = require('./routes/apiRoutes');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -16,6 +17,8 @@ app.use(express.json());
 // for using css and other files for html
 app.use(express.static('public'));
 
+
+app.use('/api', apiRoutes);
 app.use('/', htmlRoutes);
 
 app.listen(PORT, () => {
