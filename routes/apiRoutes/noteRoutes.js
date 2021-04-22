@@ -1,16 +1,16 @@
 const router = require('express').Router();
 const { nanoid } = require('nanoid');
-const { createNewNote, validateNote } = require('../../lib/notes');
-
+const { createNewNote, validateNote, deleteNote, filterNotes } = require('../../lib/notes');
 const { notes } = require('../../db/db');
 
 // get notes request handler
 router.get('/notes', (req, res) => {
+    let { notes } = require('../../db/db');
     let results = notes;
     res.json(results);
 });
 
-// post notes request handler
+// post new note request handler
 router.post('/notes', (req, res) => {
     // set unique id using nanoid npm
     req.body.id = nanoid();
@@ -23,6 +23,12 @@ router.post('/notes', (req, res) => {
       res.json(note);
     }
 });
-  
 
+// delete note request handler
+router.delete('/notes/:id', (req, res) => {
+    const noteId = req.params.id;
+    deleteNote(filterNotes(noteId, notes))
+    res.json(noteId);    
+});
+  
 module.exports  = router;
