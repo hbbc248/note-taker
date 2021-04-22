@@ -1,11 +1,10 @@
 const router = require('express').Router();
 const { nanoid } = require('nanoid');
 const { createNewNote, validateNote, deleteNote, filterNotes } = require('../../lib/notes');
-const { notes } = require('../../db/db');
+var { notes } = require('../../db/db');
 
 // get notes request handler
 router.get('/notes', (req, res) => {
-    let { notes } = require('../../db/db');
     let results = notes;
     res.json(results);
 });
@@ -27,8 +26,8 @@ router.post('/notes', (req, res) => {
 // delete note request handler
 router.delete('/notes/:id', (req, res) => {
     const noteId = req.params.id;
-    deleteNote(filterNotes(noteId, notes))
-    res.json(noteId);    
+    notes = deleteNote(filterNotes(noteId, notes))
+    res.json(notes);    
 });
   
 module.exports  = router;
